@@ -31,6 +31,7 @@ public class Inventory implements Iterable<ItemStack>, Cloneable
     public static void mergeStacks(ItemStack lhs, ItemStack rhs)
     {
         // Refer to the notes from Assignment 2
+        lhs.addItems(rhs.size());
     }
 
     /**
@@ -95,7 +96,7 @@ public class Inventory implements Iterable<ItemStack>, Cloneable
     public boolean isFull()
     {
         // Replace the next line
-        return false;
+        return this.slots.size() == this.capacity;
     }
 
     /**
@@ -119,6 +120,13 @@ public class Inventory implements Iterable<ItemStack>, Cloneable
     public ItemStack findMatchingItemStack(ItemStack key)
     {
         // Adapt the logic from Assignment 2
+        for (ItemStack stack : this.slots) {
+            if (stack.getItem().equals(key.getItem())) {
+                return stack;
+            }
+        }
+            
+        
 
         return null;
     }
@@ -131,6 +139,7 @@ public class Inventory implements Iterable<ItemStack>, Cloneable
     public void addItemStackNoCheck(ItemStack toAdd)
     {
         // Add the missing (one) line by using `this.slots.add(????)`
+        this.slots.add(toAdd);
     }
 
     /**
@@ -168,6 +177,12 @@ public class Inventory implements Iterable<ItemStack>, Cloneable
         Inventory copy = new Inventory(this.totalSlots());
 
         // Add the missing copy logic (loop)
+        //iterate through the slots and add a clone of each 
+        Iterator<ItemStack> it = this.slots.iterator();
+        while (it.hasNext()) {
+            ItemStack stack = it.next();
+            copy.addItemStackNoCheck(stack.clone());
+        }
 
         return copy;
     }
@@ -215,6 +230,10 @@ public class Inventory implements Iterable<ItemStack>, Cloneable
         strBld.append(summaryLine);
 
         // Add the missing loop
+        //for loop to iterate through the slots and print the size and name of each stack
+        for (ItemStack stack : this.slots) {
+            strBld.append(String.format("  (%2d) %s%n", stack.size(), stack.getItem().getName()));
+        }
 
         return strBld.toString();
     }
