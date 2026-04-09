@@ -125,8 +125,6 @@ public class Inventory implements Iterable<ItemStack>, Cloneable
                 return stack;
             }
         }
-            
-        
 
         return null;
     }
